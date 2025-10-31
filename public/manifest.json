@@ -1,0 +1,25 @@
+{
+  "short_name": "Benassi One",
+  "name": "Benassi One",
+  "icons": [
+    {
+      "src": "benassi.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "benassi192v2.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "benassi512v2.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

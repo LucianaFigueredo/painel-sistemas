@@ -1,0 +1,377 @@
+/* =========================================================
+   Base
+========================================================= */
+body {
+  margin: 0;
+  background-color: #f5f5f5;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  
+}
+
+/* =========================================================
+   Header
+========================================================= */
+.header {
+  background: linear-gradient(180deg, #0f7b64 0%, #0e6f5c 100%);
+  color: white;
+  padding: 25px 40px;
+  border-bottom-left-radius: 40px;
+  border-bottom-right-radius: 40px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1400px;
+  width: 100%;
+  gap: 25px;
+  padding: 0 20px;
+}
+
+.logo {
+  height: 70px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+}
+
+.header-text { text-align: right; }
+
+.header-text h1 {
+  font-size: 1.9rem;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: 0.3px;
+}
+
+.header-text p {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin-top: 4px;
+}
+
+/* =========================================================
+   Variáveis para cards/colunas (mantêm busca e grid alinhados)
+========================================================= */
+:root{
+  --card-w: 190px;
+  --card-h: 160px;
+  --gap: 15px;
+  --cols: 5; /* qtd de colunas no desktop */
+}
+
+/* =========================================================
+   Barra de busca (mesma largura do grid)
+========================================================= */
+.search-bar {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: 12px;
+  width: 100%;
+  max-width: calc(var(--cols) * var(--card-w) + (var(--cols) - 1) * var(--gap));
+  margin: 25px auto 10px auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 6px 12px;
+  transition: box-shadow 0.2s ease;
+  justify-content: flex-start;
+}
+
+.search-bar input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 8px;
+  font-size: 0.95rem;
+  color: #333;
+  width: 100%;
+}
+
+.search-bar:focus-within {
+  box-shadow: 0 3px 10px rgba(14, 111, 92, 0.25);
+}
+
+.search-icon {
+  color: #0e6f5c;
+  margin-right: 8px;
+}
+
+/* =========================================================
+   Grid + Cards
+========================================================= */
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+  width: 100%;
+  max-width: calc(var(--cols) * var(--card-w) + (var(--cols) - 1) * var(--gap));
+  margin: 25px auto;
+  justify-content: flex-start; /* começa na mesma coluna da esquerda */
+}
+
+/* wrapper mantém tooltip/ícone posicionados */
+.card-wrapper {
+  position: relative;
+  width: var(--card-w);
+  height: var(--card-h);
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+/* card */
+.card {
+  text-decoration: none;
+  background-color: white;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 10px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.card img {
+  width: 95px;
+  height: 70px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.card p {
+  margin: 0;
+  color: #666;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-align: center;
+  word-wrap: break-word;
+  max-width: 100%;
+}
+
+/* =========================================================
+   Tooltip (ícone de informação)
+========================================================= */
+.info-wrapper {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 50;
+  pointer-events: auto;
+}
+
+.info-icon {
+  color: #aaa;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  display: block;
+}
+
+.info-icon:hover { color: #0e6f5c; }
+
+.info-tooltip {
+  visibility: hidden;
+  opacity: 0;
+  width: 220px;
+  background: rgba(14, 111, 92, 0.95);
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px 12px;
+  position: absolute;
+  z-index: 100;
+  top: 30px;
+  right: -5px;
+  transform: translateY(6px);
+  font-size: 0.88rem;
+  line-height: 1.4;
+  box-shadow: 0 4px 10px rgba(14, 111, 92, 0.25);
+  transition: all 0.25s ease;
+  text-align: left;
+  pointer-events: none;
+}
+
+.info-wrapper:hover .info-tooltip {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =========================================================
+   Responsivo – ajusta número de colunas e tamanhos
+========================================================= */
+/* 4 colunas */
+@media (max-width: 1200px){
+  :root { --cols: 4; }
+}
+
+/* 3 colunas */
+@media (max-width: 980px){
+  :root { --cols: 3; }
+}
+
+/* 2 colunas */
+@media (max-width: 740px){
+  :root { --cols: 2; }
+}
+
+/* Layout mobile + 1 coluna */
+@media (max-width: 600px) {
+  :root {
+    --cols: 1;
+    --card-w: 150px;
+    --card-h: 150px;
+    --gap: 15px;
+  }
+
+  .header {
+    flex-direction: column;
+    font-size: 1.2rem;
+    text-align: center;
+    gap: 10px;
+    padding: 20px;
+  }
+
+  .header-text { text-align: center; }
+  .logo { height: 40px; }
+
+  .card { padding: 15px; }
+  .card img { width: 60px; height: 45px; }
+  .card p { font-size: 0.9rem; }
+}
+
+/* =========================================================
+   Uniformiza estilo dos botões (páginas internas)
+========================================================= */
+button.card {
+  all: unset; /* remove aparência padrão do botão do navegador */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  gap: 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+button.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+button.card img {
+  width: 95px; /* igual aos outros cards */
+  height: 70px;
+  object-fit: contain;
+}
+
+button.card p {
+  margin: 0;
+  color: #666;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+/* =========================================================
+   Ajuste de ícones somente para subpáginas (nível 2+)
+========================================================= */
+/* ======== Cabeçalho 2 linhas no modo relatório ======== */
+.iframe-container {
+  width: 100%;
+  height: 100vh;
+  background: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+}
+
+.iframe-header-duo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #0e6f5c;
+  color: white;
+  padding: 8px 22px;
+  height: 65px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.iframe-left-duo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  line-height: 1.2;
+}
+
+.iframe-title-duo {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: 0.3px;
+}
+
+.iframe-voltar-duo {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  color: white;
+  opacity: 0.85;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: opacity 0.2s;
+  margin-top: 3px;
+}
+
+.iframe-voltar-duo:hover {
+  opacity: 1;
+}
+
+.iframe-logo-right {
+  height: 28px;
+  opacity: 0.95;
+}
+
+.iframe-content iframe {
+  width: 100%;
+  height: calc(100vh - 65px);
+  border: none;
+}
+
+.iframe-open-button {
+  background-color: #0e6f5c;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-right: 12px;
+}
+
+.iframe-open-button:hover {
+  background-color: #0c5f4b;
+}
