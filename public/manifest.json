@@ -1,25 +1,28 @@
 {
   "short_name": "Benassi One",
-  "name": "Benassi One",
+  "name": "Painel Benassi One",
   "icons": [
+    {
+      "src": "benassi192v2.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "benassi512v2.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
     {
       "src": "benassi.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
-    },
-    {
-      "src": "benassi192v2.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "benassi512v2.png",
-      "type": "image/png",
-      "sizes": "512x512"
     }
   ],
-  "start_url": ".",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "orientation": "portrait",
+  "theme_color": "#0e6f5c",
+  "background_color": "#ffffff",
+  "description": "Acesso rápido aos sistemas corporativos da Benassi Minas."
 }
