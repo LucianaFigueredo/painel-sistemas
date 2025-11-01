@@ -106,9 +106,10 @@ function App() {
         </div>
       </div>
 
-      {/* ======== “< Voltar” ======== */}
+      {/* ======== "< Voltar" ======== */}
       {pilhaPaginas.length > 0 && (
         <div
+        className="voltar-wrapper"
           style={{
             width: "100%",
             marginTop: "10px",
@@ -139,32 +140,32 @@ function App() {
         </div>
       )}
 
-      {/* ======== Barra de busca ======== */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          width: "100%",
-          marginTop: pilhaPaginas.length > 0 ? "15px" : "25px",
-        }}
-      >
-        <div
-          className="search-bar"
-          style={{
-            flex: 1,
-            maxWidth:
-              "calc(var(--cols) * var(--card-w) + (var(--cols) - 1) * var(--gap))",
-          }}
-        >
-          <Search className="search-icon" size={18} />
-          <input
-            type="text"
-            placeholder="Buscar..."
-            value={busca}
-            onChange={(e) => setBusca(e.target.value)}
-          />
-        </div>
-      </div>
+{/* ======== Barra de busca ======== */}
+<div
+  style={{
+    display: "flex",
+    justifyContent: "center",
+    width: "100%",
+    marginTop: pilhaPaginas.length > 0 ? "15px" : "25px",
+  }}
+>
+  <div
+    className="search-bar"
+    style={{
+      flex: 1,
+      maxWidth:
+        "calc(var(--cols) * var(--card-w) + (var(--cols) - 1) * var(--gap))",
+    }}
+  >
+    <Search className="search-icon" size={18} />
+    <input
+      type="text"
+      placeholder="Buscar..."
+      value={busca}
+      onChange={(e) => setBusca(e.target.value)}
+    />
+  </div>
+</div>
 
       {/* ======== Grid ======== */}
       <div className="grid">
@@ -188,6 +189,11 @@ function App() {
           </div>
         ))}
       </div>
+
+      {/* ======== 📌 Rodapé fixo (só aparece no mobile) ======== */}
+      <footer className="footer">
+       
+      </footer>
     </div>
   );
 }
