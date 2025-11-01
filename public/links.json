@@ -11,7 +11,7 @@
   "descricao": "Relatórios e indicadores da área de compras.",
   "link": "https://benassiminas.sankhyacloud.com.br/mge/",
   "html": "<iframe src='https://benassiminas.sankhyacloud.com.br/mge/' width='100%' height='100%' frameborder='0'></iframe>",
-  "tipo": "html",
+  "tipo": "link",
   "filhos": []
 },
 
@@ -21,7 +21,7 @@
   "descricao": "Universidade Sankhya.",
   "link": "https://ead.sankhya.com.br/html/espaco.php/",
   "html": "<iframe src='https://ead.sankhya.com.br/html/espaco.php/' width='100%' height='100%' frameborder='0'></iframe>",
-  "tipo": "html",
+  "tipo": "link",
   "filhos": []
 },
 
@@ -50,7 +50,7 @@
   "descricao": "Sistema de gestão operação geral Benassi.",
   "link": "https://erp.mysaas.com.br/",
   "html": "<iframe src='https://erp.mysaas.com.br' width='100%' height='100%' frameborder='0'></iframe>",
-  "tipo": "html",
+  "tipo": "link",
   "filhos": []
 },
 {
@@ -59,7 +59,7 @@
   "descricao": "Sistema de gestão operação geral Benassi.",
   "link": "https://erp.mysaas.com.br/homologacao",
   "html": "<iframe src='https://erp.mysaas.com.br' width='100%' height='100%' frameborder='0'></iframe>",
-  "tipo": "html",
+  "tipo": "link",
   "filhos": []
 },
 
@@ -69,7 +69,7 @@
   "descricao": "Portal pedidos dos Clientes.",
   "link": "https://cliente.mysaas.com.br",
   "html": "<iframe src='https://cliente.mysaas.com.br' width='100%' height='100%' frameborder='0'></iframe>",
-  "tipo": "html",
+  "tipo": "link",
   "filhos": []
 },
 
@@ -79,7 +79,7 @@
   "descricao": "Portal do Fornecedor.",
   "link": "http://fornecedores.mysaas.com.br",
   "html": "<iframe src='http://fornecedores.mysaas.com.br/' width='100%' height='100%' frameborder='0'></iframe>",
-  "tipo": "html",
+  "tipo": "link",
   "filhos": []
 },
 
@@ -89,7 +89,7 @@
   "descricao": "Portal pedidos dos Clientes.",
   "link": "https://sga.mysaas.com.br/",
   "html": "<iframe src='https://sga.mysaas.com.br/' width='100%' height='100%' frameborder='0'></iframe>",
-  "tipo": "html",
+  "tipo": "link",
   "filhos": []
 }
 
@@ -118,7 +118,6 @@
   {
     "nome": "Mindsight",
     "logo": "logos/mindsight.png",
-    "link": "https://auth.mindsight.com.br/benassiminas/accounts/login/?next=https://recrutamento.mindsight.com.br/benassiminas/",
     "descricao": "Plataforma de recrutamento e seleção online usada pelo RH da Benassi.",
     "tipo": "pagina",
   
@@ -222,7 +221,6 @@
   {
     "nome": "Vixting",
     "logo": "logos/vixting.png",
-    "link": "https://vixting.com.br",
     "descricao": "Sistema de comunicação interna e notificações corporativas.",
     "tipo": "pagina",
     "filhos": [

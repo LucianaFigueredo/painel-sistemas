@@ -224,7 +224,55 @@ body {
 }
 
 /* =========================================================
-   Responsivo – ajusta número de colunas e tamanhos
+   Botão de Copiar Link
+========================================================= */
+.copy-wrapper {
+  position: absolute;
+  top: 10px;
+  right: 30px;
+  z-index: 50;
+  pointer-events: auto;
+}
+
+.copy-icon {
+  color: #aaa;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  display: block;
+}
+
+.copy-icon:hover { color: #0e6f5c; }
+
+.copy-tooltip {
+  visibility: hidden;
+  opacity: 0;
+  width: 250px;
+  background: rgba(14, 111, 92, 0.95);
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px 12px;
+  position: absolute;
+  z-index: 100;
+  top: 30px;
+  right: -5px;
+  transform: translateY(6px);
+  font-size: 0.85rem;
+  line-height: 1.4;
+  box-shadow: 0 4px 10px rgba(14, 111, 92, 0.25);
+  transition: all 0.25s ease;
+  text-align: left;
+  pointer-events: none;
+  word-break: break-all;
+}
+
+.copy-wrapper:hover .copy-tooltip {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =========================================================
+   Responsivo â€“ ajusta número de colunas e tamanhos
 ========================================================= */
 /* 4 colunas */
 @media (max-width: 1200px){
@@ -411,7 +459,7 @@ button.card p {
 
 @media (max-width: 768px) {
 
-  /* 📱 Cabeçalho fixo no topo */
+  /* ðŸ“± Cabeçalho fixo no topo */
   .header {
     position: fixed;
     top: 0;
@@ -456,7 +504,7 @@ button.card p {
     height: 45px !important;
   }
 
-  /* 🎨 Fundo cinza atrás da busca */
+  /* ðŸŽ¨ Fundo cinza atrás da busca */
   body::before {
     content: '';
     position: fixed;
@@ -469,7 +517,7 @@ button.card p {
     pointer-events: none;
   }
 
-  /* 🔍 Campo de busca fixo com respiro e bordas arredondadas */
+  /* ðŸ” Campo de busca fixo com respiro e bordas arredondadas */
   .search-bar {
     position: fixed !important;
     top: 110px !important;
@@ -484,7 +532,7 @@ button.card p {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
     border-radius: 12px !important;
     box-sizing: border-box !important;
-    top: 95px !important;
+    top: 110px !important;
   }
 
   .search-bar input {
@@ -492,7 +540,7 @@ button.card p {
     font-size: 1rem;
   }
 
-  /* 🧱 Grade próxima do buscar */
+  /* ðŸ§± Grade próxima do buscar */
   .grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -539,7 +587,7 @@ button.card p {
     margin-top: 6px;
   }
 
-  /* 📌 Rodapé fixo e responsivo no mobile */
+  /* ðŸ“Œ Rodapé fixo e responsivo no mobile */
   .footer {
     position: fixed;
     bottom: 0;
@@ -554,7 +602,7 @@ button.card p {
     box-sizing: border-box;
   }
 
-  /* 📊 Cabeçalho do relatório fixo */
+  /* ðŸ“Š Cabeçalho do relatório fixo */
   .iframe-header-duo {
     position: fixed !important;
     top: 0 !important;
@@ -571,7 +619,7 @@ button.card p {
   .iframe-content iframe {
     height: calc(100vh - 65px) !important;
   }
-/* 🔙 Botão Voltar ao lado esquerdo do buscar */
+/* ðŸ”™ Botão Voltar ao lado esquerdo do buscar */
 .subpage .voltar-wrapper {
   position: fixed !important;
   top: 105px !important;
@@ -609,4 +657,4 @@ button.card p {
     max-width: 100vw;
   }
 
-} /* ← fecha o @media aqui e ACABOU! */
+} /* â† fecha o @media aqui e ACABOU! */

@@ -1,13 +1,14 @@
 import { useEffect, useState, useCallback } from "react";
-import { Info, Search, ChevronLeft } from "lucide-react";
+import { Info, Search, ChevronLeft, Copy } from "lucide-react";
 import "./App.css";
 
 function App() {
   const [dados, setDados] = useState([]);
   const [pilhaPaginas, setPilhaPaginas] = useState([]);
   const [busca, setBusca] = useState("");
+  const [mensagemLinkCopiado, setMensagemLinkCopiado] = useState(false);
 
-  // ✅ Corrigido: função "fixada" com useCallback
+  // âœ… Corrigido: funÃ§Ã£o "fixada" com useCallback
   const ordenarAlfabeticamente = useCallback((lista) =>
     lista
       .map((item) => ({
@@ -18,6 +19,31 @@ function App() {
         a.nome.localeCompare(b.nome, "pt-BR", { sensitivity: "base" })
       )
   , []);
+
+  // Função para buscar recursivamente em filhos
+  const buscarRecursivo = useCallback((item, termoBusca) => {
+    if (!termoBusca) return true; // Se não tem busca, mostra tudo
+    
+    const termo = termoBusca.toLowerCase();
+    
+    // Verifica se o próprio item corresponde à busca
+    if (item.nome.toLowerCase().includes(termo)) {
+      return true;
+    }
+    
+    // Se tem descrição, verifica também
+    if (item.descricao && item.descricao.toLowerCase().includes(termo)) {
+      return true;
+    }
+    
+    // Se tem filhos, verifica recursivamente
+    if (item.filhos && item.filhos.length > 0) {
+      // Se encontrar em QUALQUER filho, mostra o pai
+      return item.filhos.some(filho => buscarRecursivo(filho, termo));
+    }
+    
+    return false;
+  }, []);
 
   // ✅ Agora o ESLint não reclama mais da dependência
   useEffect(() => {
@@ -41,7 +67,7 @@ function App() {
       : null;
 
   const itensFiltrados = (paginaAtual || []).filter((item) =>
-    item.nome.toLowerCase().includes(busca.toLowerCase())
+    buscarRecursivo(item, busca)
   );
 
   const abrirItem = (item) => {
@@ -58,6 +84,24 @@ function App() {
     setPilhaPaginas(pilhaPaginas.slice(0, -1));
   };
 
+  const copiarLink = (item, event) => {
+    event.stopPropagation(); // Impede que o card seja clicado
+    const linkParaCopiar = item.link || item.html || "";
+    
+    if (linkParaCopiar) {
+      navigator.clipboard.writeText(linkParaCopiar)
+        .then(() => {
+          setMensagemLinkCopiado(true);
+          setTimeout(() => {
+            setMensagemLinkCopiado(false);
+          }, 2500);
+        })
+        .catch(() => {
+          alert("Não foi possível copiar o link");
+        });
+    }
+  };
+
   const tituloAtual =
     pilhaPaginas.length === 0
       ? "Benassi One"
@@ -68,7 +112,7 @@ function App() {
       ? "Acesso rápido aos sistemas corporativos"
       : "Selecione uma opção";
 
-  // ================== 📊 TELA DE RELATÓRIO EMBUTIDO (HTML) ==================
+  // ================== ðŸ“Š TELA DE RELATÃ“RIO EMBUTIDO (HTML) ==================
   if (itemAtual && itemAtual.tipo === "html") {
   return (
     <div className="iframe-container">
@@ -92,10 +136,35 @@ function App() {
 }
 
 
-  // ================== 🏠 TELAS NORMAIS (home e subpáginas) ==================
+  // ================== ðŸ  TELAS NORMAIS (home e subpÃ¡ginas) ==================
   return (
     <div className={pilhaPaginas.length > 0 ? "subpage" : ""}>
-      {/* ======== Cabeçalho ======== */}
+      {/* ======== CabeÃ§alho ======== */}
+      {/* ======== Mensagem de Link Copiado ======== */}
+      {mensagemLinkCopiado && (
+        <div style={{
+          position: 'fixed',
+          top: '1rem',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          backgroundColor: '#e6f9ec',
+          color: '#10693e',
+          padding: '0.75rem 1.25rem',
+          borderRadius: '8px',
+          boxShadow: '0 2px 10px rgba(0,0,0,0.15)',
+          zIndex: 10000,
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.5rem',
+          fontWeight: 400,
+          fontSize: '0.95rem',
+          whiteSpace: 'nowrap'
+        }}>
+          <span style={{ fontSize: '1.25rem' }}>✅</span>
+          Link copiado com sucesso!
+        </div>
+      )}
+
       <div className="header">
         <div className="header-content">
           <img src="/B.png" alt="Logo Benassi" className="logo" />
@@ -180,6 +249,20 @@ function App() {
               <p>{item.nome}</p>
             </button>
 
+            {(item.link || item.html) && (
+              <div className="copy-wrapper">
+                <Copy 
+                  size={15} 
+                  strokeWidth={2} 
+                  className="copy-icon"
+                  onClick={(e) => copiarLink(item, e)}
+                />
+                <div className="copy-tooltip">
+                  {item.link || "Link do relatório"}
+                </div>
+              </div>
+            )}
+
             {item.descricao && (
               <div className="info-wrapper">
                 <Info size={15} strokeWidth={2} className="info-icon" />
@@ -190,7 +273,7 @@ function App() {
         ))}
       </div>
 
-      {/* ======== 📌 Rodapé fixo (só aparece no mobile) ======== */}
+      {/* ======== ðŸ“Œ RodapÃ© fixo (sÃ³ aparece no mobile) ======== */}
       <footer className="footer">
        
       </footer>
