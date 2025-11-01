@@ -226,7 +226,7 @@
     "filhos": [
       {
   "nome": "Sistema",
-  "logo": "logos/vixting.png",
+  "logo": "logos/vlow.png",
   "descricao": "Sistema de Admissão Digital.",
   "link": "https://recrutamento.mindsight.com.br/benassiminas/opportunities/?status=IN_PROGRESS",
   "html": "<iframe src='https://recrutamento.mindsight.com.br/benassiminas/opportunities/?status=IN_PROGRESS' width='100%' height='100%' frameborder='0'></iframe>",
@@ -235,7 +235,7 @@
 },
 {
   "nome": "Assinatura Eletrônica",
-  "logo": "logos/vixting.png",
+  "logo": "logos/vixsign.png",
   "descricao": "Sistema de Assinatura Eletrônica",
   "link": "https://vixsign.com.br/",
   "html": "<iframe src='https://vixsign.com.br/' width='100%' height='100%' frameborder='0'></iframe>",
@@ -339,7 +339,7 @@
             "logo": "icons/vendas.png",
             "link": "https://app.powerbi.com/reportEmbed?reportId=xyz111",
             "descricao": "Painel geral de performance de vendas diretas.",
-            "tipo": "link"
+            "tipo": "html"
           },
           {
             "nome": "Orientais",
