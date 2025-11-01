@@ -622,7 +622,7 @@ button.card p {
 /* ðŸ”™ Botão Voltar ao lado esquerdo do buscar */
 .subpage .voltar-wrapper {
   position: fixed !important;
-  top: 105px !important;
+  top: 120px !important;
   left: 16px !important;
   z-index: 99 !important;
   margin: 0 !important;
