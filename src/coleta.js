@@ -3,7 +3,6 @@ import axios from "axios";
 import styles from "./Coleta.module.css";
 import "./ColetaOverride.css";
 import { Search, Save, Edit2, X, ChevronDown } from "lucide-react";
-import { API_BASE_URL } from "./config";
 
 function Coleta() {
   const [funcionarios, setFuncionarios] = useState([]);
@@ -102,7 +101,8 @@ function Coleta() {
 
   // Carrega todos os funcionários
   useEffect(() => {
-    axios.get(`${API_BASE_URL}/funcionarios/todos`)
+    axios
+      .get("http://localhost:3001/funcionarios/todos")
       .then((res) => {
         setFuncionarios(res.data);
         
@@ -215,7 +215,8 @@ function Coleta() {
     setAtualizando(true);
     setMensagem("");
 
-    axios.post(`${API_BASE_URL}/coleta`, {
+    axios
+      .post("http://localhost:3001/coleta", {
         id: funcionarioSelecionado.id,
         email: email,
         telefone: telefone,

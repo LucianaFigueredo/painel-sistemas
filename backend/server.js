@@ -1,47 +1,34 @@
 const express = require("express");
 const cors = require("cors");
-const mysql = require("mysql2/promise");
-const path = require("path");
+const mysql = require("mysql2");
 
 const app = express();
+app.use(cors());
 app.use(express.json());
-app.use(cors({
-  origin: ["https://one.benassiminas.com.br", "http://localhost:3000"],
-}));
 
-// 🟢 Pool de conexões com mysql2/promise
-const pool = mysql.createPool({
-  host: "34.233.157.55",
-  user: "luciana",
+// 🔗 Conexão com o banco
+const db = mysql.createConnection({
+  host: "34.233.157.55",      // ou IP do servidor MySQL
+  user: "luciana",           // ajuste conforme seu ambiente
   password: "bnmg@",
-  database: "private_benassi_mg",
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0,
-  connectTimeout: 10000,   // 10s
-  // enableKeepAlive: true, // opcional em versões novas
+  database: "private_benassi_mg"
 });
 
-// 🔎 Healthcheck básico
-app.get("/health", async (_, res) => {
-  try {
-    await pool.query("SELECT 1");
-    res.json({ ok: true });
-  } catch (e) {
-    res.status(500).json({ ok: false, error: String(e) });
+// Testa a conexão
+db.connect((err) => {
+  if (err) {
+    console.error("Erro ao conectar ao banco:", err);
+  } else {
+    console.log("✅ Conectado ao banco de dados MySQL!");
   }
 });
 
-// 🔁 Keep-alive no pool (evita idle timeout no provedor)
-setInterval(async () => {
-  try { await pool.query("SELECT 1"); } catch (_) { /* silencia */ }
-}, 30000); // 30s
-
 // ===============================
-// 🔍 ROTA ANTIGA – Buscar sem email/telefone
+// 🔍 ROTA 1 – Buscar funcionários sem email/telefone (antiga)
 // ===============================
-app.get("/funcionarios", async (req, res) => {
+app.get("/funcionarios", (req, res) => {
   const search = req.query.search || "";
+
   const sql = `
     SELECT id, codigo, nome, cpf, departamento, demissao, email, telefone
     FROM funcionarios
@@ -56,64 +43,49 @@ app.get("/funcionarios", async (req, res) => {
       )
     ORDER BY nome ASC
   `;
-  try {
-    const [rows] = await pool.query(sql, [
-      `%${search}%`, `%${search}%`, `%${search}%`, `%${search}%`
-    ]);
-    res.json(rows);
-  } catch (err) {
-    console.error("Erro /funcionarios:", err);
-    res.status(500).json({ error: "Erro ao consultar banco" });
-  }
+
+  db.query(
+    sql,
+    [`%${search}%`, `%${search}%`, `%${search}%`, `%${search}%`],
+    (err, results) => {
+      if (err) return res.status(500).json({ error: err });
+      res.json(results);
+    }
+  );
 });
 
 // ===============================
-// 🔍 NOVA – Todos os ativos
+// 🔍 ROTA NOVA – Buscar TODOS os funcionários ativos
 // ===============================
-app.get("/funcionarios/todos", async (_, res) => {
+app.get("/funcionarios/todos", (req, res) => {
   const sql = `
     SELECT id, codigo, nome, cpf, departamento, demissao, email, telefone
     FROM funcionarios
     WHERE (demissao IS NULL OR demissao = '')
     ORDER BY nome ASC
   `;
-  try {
-    const [rows] = await pool.query(sql);
-    res.json(rows);
-  } catch (err) {
-    console.error("Erro /funcionarios/todos:", err);
-    res.status(500).json({ error: "Erro ao consultar banco" });
-  }
+
+  db.query(sql, (err, results) => {
+    if (err) return res.status(500).json({ error: err });
+    res.json(results);
+  });
 });
 
 // ===============================
-// 📝 Atualizar contato
+// 📝 ROTA 2 – Atualizar dados (e-mail e telefone)
 // ===============================
-app.post("/coleta", async (req, res) => {
+app.post("/coleta", (req, res) => {
   const { id, email, telefone } = req.body;
-  if (!id || !email || !telefone) {
-    return res.status(400).json({ error: "Campos obrigatórios ausentes" });
-  }
-  try {
-    const [result] = await pool.query(
-      "UPDATE funcionarios SET email = ?, telefone = ? WHERE id = ?",
-      [email, telefone, id]
-    );
-    res.json({ success: true, affectedRows: result.affectedRows });
-  } catch (err) {
-    console.error("Erro /coleta:", err);
-    res.status(500).json({ error: "Erro ao atualizar" });
-  }
+
+  const sql = `UPDATE funcionarios SET email = ?, telefone = ? WHERE id = ?`;
+  db.query(sql, [email, telefone, id], (err, result) => {
+    if (err) return res.status(500).json({ error: err });
+    res.json({ success: true, message: "Dados salvos com sucesso!" });
+  });
 });
 
-// 🔒 (opcional) servir o build caso esse serviço também sirva o front
-app.use(express.static(path.join(__dirname, "build")));
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
-});
-
-// 🚀 Porta do Render
-const PORT = process.env.PORT || 10000;
+// 🚀 Inicializa o servidor
+const PORT = 3001;
 app.listen(PORT, () => {
   console.log(`🚀 Servidor rodando na porta ${PORT}`);
 });
