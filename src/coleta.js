@@ -3,6 +3,7 @@ import axios from "axios";
 import styles from "./Coleta.module.css";
 import "./ColetaOverride.css";
 import { Search, Save, Edit2, X, ChevronDown } from "lucide-react";
+import { API_BASE_URL } from "./config";
 
 function Coleta() {
   const [funcionarios, setFuncionarios] = useState([]);
