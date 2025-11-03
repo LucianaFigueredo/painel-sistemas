@@ -101,8 +101,7 @@ function Coleta() {
 
   // Carrega todos os funcionários
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/funcionarios/todos")
+    axios.get(`${API_BASE_URL}/funcionarios/todos`)
       .then((res) => {
         setFuncionarios(res.data);
         
@@ -215,8 +214,7 @@ function Coleta() {
     setAtualizando(true);
     setMensagem("");
 
-    axios
-      .post("https://one.benassiminas.com.br/coleta", {
+    axios.post(`${API_BASE_URL}/coleta`, {
         id: funcionarioSelecionado.id,
         email: email,
         telefone: telefone,
