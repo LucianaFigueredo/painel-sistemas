@@ -216,7 +216,7 @@ function Coleta() {
     setMensagem("");
 
     axios
-      .post("https:one.benassiminas.com.br/coleta", {
+      .post("https://one.benassiminas.com.br/coleta", {
         id: funcionarioSelecionado.id,
         email: email,
         telefone: telefone,
