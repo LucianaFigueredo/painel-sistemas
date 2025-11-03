@@ -53,12 +53,12 @@ app.post("/coleta", (req, res) => {
 // FRONTEND (React)
 // ===============================
 
-// 👉 Corrigido o caminho do build
-app.use(express.static(path.join(__dirname, "../build")));
+// 👉 O build está na raiz do projeto
+app.use(express.static(path.join(__dirname, "build")));
 
-// 👉 Corrigido o wildcard pro Express 5
+// 👉 Rota coringa para SPA (funciona no Express 5)
 app.get(/.*/, (req, res) => {
-  res.sendFile(path.join(__dirname, "../build", "index.html"));
+  res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
 // 🚀 Inicializa o servidor
