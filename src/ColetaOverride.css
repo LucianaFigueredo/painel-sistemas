@@ -1,0 +1,48 @@
+/* 
+ * CSS OVERRIDE PARA PÁGINA COLETA
+ * Este arquivo remove a barra cinza do App.css apenas na página Coleta
+ */
+
+/* Remove TUDO do App.css no mobile quando estiver na página Coleta */
+@media (max-width: 768px) {
+  
+  /* REMOVE A BARRA CINZA */
+  body[data-page="coleta"]::before,
+  body[data-coleta="true"]::before {
+    display: none !important;
+    content: "" !important;
+    height: 0 !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+  }
+  
+  /* Esconde header do App */
+  body[data-page="coleta"] .header,
+  body[data-coleta="true"] .header {
+    display: none !important;
+  }
+  
+  /* Esconde barra de busca do App */
+  body[data-page="coleta"] .search-bar,
+  body[data-coleta="true"] .search-bar {
+    display: none !important;
+  }
+  
+  /* Esconde grid do App */
+  body[data-page="coleta"] .grid,
+  body[data-coleta="true"] .grid {
+    display: none !important;
+  }
+  
+  /* Esconde botão voltar do App */
+  body[data-page="coleta"] .voltar-wrapper,
+  body[data-coleta="true"] .voltar-wrapper {
+    display: none !important;
+  }
+  
+  /* Remove padding do body */
+  body[data-page="coleta"],
+  body[data-coleta="true"] {
+    padding-top: 0 !important;
+  }
+}

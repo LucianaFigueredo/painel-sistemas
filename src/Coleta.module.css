@@ -1,0 +1,486 @@
+.coletaContainer {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #f5f7fa;
+  min-height: 100vh;
+  padding: 20px;
+  padding-top: 20px;
+  color: #333;
+  overflow: visible;
+  position: relative;
+  z-index: 999;
+}
+
+/* No mobile, padding normal já que escondemos a barra */
+@media (max-width: 768px) {
+  .coletaContainer {
+    padding: 15px;
+    padding-top: 15px;
+  }
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+  padding: 20px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  position: relative;
+  top: 0;
+  z-index: 1000;
+}
+
+.header h1 {
+  color: #0e6f5c;
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.header p {
+  color: #666;
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* Mensagens */
+.mensagemSucesso,
+.mensagemErro {
+  padding: 12px 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 500;
+  animation: slideDown 0.3s ease;
+}
+
+.mensagemSucesso {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.mensagemErro {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Formulário */
+.formulario {
+  max-width: 700px;
+  margin: 0 auto;
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
+  overflow: visible;
+  position: relative;
+  z-index: 1000;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.formGroup label {
+  display: block;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+}
+
+.opcional {
+  color: #999;
+  font-weight: 400;
+  font-size: 0.85rem;
+}
+
+.obrigatorio {
+  color: #e74c3c;
+  font-weight: 600;
+}
+
+/* Input com ícones */
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 45px 12px 40px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: #fafafa;
+  box-sizing: border-box;
+}
+
+/* Input simples sem ícones (e-mail e telefone) */
+.inputSimples {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: #fafafa;
+  box-sizing: border-box;
+}
+
+.input:focus,
+.inputSimples:focus {
+  outline: none;
+  border-color: #0e6f5c;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(14, 111, 92, 0.1);
+}
+
+/* Input sem ícones (e-mail e telefone) */
+.formGroup input[type="email"],
+.formGroup input[type="text"]:not(.inputWrapper input) {
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+.iconeInput {
+  position: absolute;
+  left: 12px;
+  color: #999;
+  pointer-events: none;
+}
+
+.iconeDropdown {
+  position: absolute;
+  right: 12px;
+  color: #999;
+  pointer-events: none;
+}
+
+.iconeLimpar {
+  position: absolute;
+  right: 40px;
+  color: #999;
+  cursor: pointer;
+  transition: color 0.2s;
+  z-index: 10;
+}
+
+.iconeLimpar:hover {
+  color: #e74c3c;
+}
+
+/* Dropdown */
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 2px solid #0e6f5c;
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  max-height: 400px;
+  overflow-y: auto;
+  z-index: 9999;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  margin-top: -2px;
+}
+
+.dropdownItem {
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #f0f0f0;
+  min-height: auto;
+}
+
+.dropdownInfo {
+  padding: 10px 15px;
+  background: #f0f9f6;
+  color: #0e6f5c;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-bottom: 2px solid #0e6f5c;
+  text-align: center;
+}
+
+.dropdownItem:last-child {
+  border-bottom: none;
+}
+
+.dropdownItem:hover {
+  background: #f0f9f6;
+}
+
+.dropdownItem.selecionado {
+  background: #e6f5f0;
+  font-weight: 600;
+  color: #0e6f5c;
+}
+
+.funcionarioInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.funcionarioNome {
+  font-weight: 500;
+  color: #333;
+}
+
+.funcionarioDados {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.badgePreenchido {
+  background: #0e6f5c;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.dropdownVazio {
+  padding: 15px;
+  text-align: center;
+  color: #999;
+  font-style: italic;
+}
+
+.dropdownRodape {
+  padding: 10px 15px;
+  background: #f8f8f8;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #666;
+  border-top: 1px solid #e0e0e0;
+}
+
+/* Info do funcionário selecionado */
+.infoSelecionado {
+  background: #f0f9f6;
+  border: 2px solid #0e6f5c;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.infoHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.infoTitulo {
+  font-weight: 600;
+  color: #0e6f5c;
+  font-size: 0.95rem;
+}
+
+.badgeModoEdicao {
+  background: #ffc107;
+  color: #333;
+  padding: 4px 10px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.infoDetalhes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 8px;
+}
+
+.infoDetalhes p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.infoDetalhes strong {
+  color: #333;
+}
+
+/* Botão salvar */
+.botaoSalvar {
+  width: 100%;
+  background: linear-gradient(135deg, #0e6f5c 0%, #0c5f4b 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 14px 20px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(14, 111, 92, 0.3);
+  margin-top: 25px;
+}
+
+.botaoSalvar:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(14, 111, 92, 0.4);
+}
+
+.botaoSalvar:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.botaoSalvar:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Scrollbar personalizada */
+.dropdown::-webkit-scrollbar {
+  width: 8px;
+}
+
+.dropdown::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.dropdown::-webkit-scrollbar-thumb {
+  background: #0e6f5c;
+  border-radius: 10px;
+}
+
+.dropdown::-webkit-scrollbar-thumb:hover {
+  background: #0c5f4b;
+}
+
+/* ========== DESKTOP - Padding extra para dropdown ========== */
+@media (min-width: 769px) {
+  .formulario {
+    padding-bottom: 450px;
+  }
+}
+
+/* ========== RESPONSIVO - MOBILE ========== */
+@media (max-width: 768px) {
+  .header {
+    padding: 15px;
+    margin-bottom: 20px;
+    position: relative;
+    top: 0;
+  }
+
+  .header h1 {
+    font-size: 1.5rem;
+  }
+
+  .header p {
+    font-size: 0.9rem;
+  }
+
+  .formulario {
+    padding: 20px 15px;
+    padding-bottom: 30px;
+  }
+
+  .formGroup {
+    margin-bottom: 18px;
+  }
+
+  .input {
+    padding: 10px 40px 10px 35px;
+    font-size: 0.95rem;
+  }
+
+  .inputSimples {
+    padding: 10px;
+    font-size: 0.95rem;
+  }
+
+  .dropdown {
+    max-height: 300px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 100%;
+  }
+
+  .infoDetalhes {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .infoHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .botaoSalvar {
+    padding: 12px 18px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header h1 {
+    font-size: 1.3rem;
+  }
+
+  .header p {
+    font-size: 0.85rem;
+  }
+
+  .formulario {
+    padding: 15px 12px;
+  }
+
+  .input {
+    font-size: 0.9rem;
+  }
+
+  .inputSimples {
+    font-size: 0.9rem;
+  }
+
+  .funcionarioNome {
+    font-size: 0.9rem;
+  }
+
+  .funcionarioDados {
+    font-size: 0.8rem;
+  }
+}

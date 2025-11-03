@@ -1,0 +1,130 @@
+.coleta-container {
+  font-family: "Segoe UI", Arial, sans-serif;
+  padding: 20px;
+  background-color: #f7f9f7;
+  color: #333;
+  min-height: 100vh;
+}
+
+.coleta-header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.coleta-header h1 {
+  color: #0e6f5c;
+  margin-bottom: 5px;
+}
+
+.coleta-header p {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.coleta-busca input {
+  width: 100%;
+  max-width: 600px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  margin: 0 auto 20px auto;
+  display: block;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.coleta-grid {
+  display: flex;
+  gap: 25px;
+  align-items: flex-start;
+}
+
+.coleta-lista {
+  flex: 2;
+  overflow-y: auto;
+  max-height: 70vh;
+  background: white;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.coleta-lista table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.coleta-lista th,
+.coleta-lista td {
+  text-align: left;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.coleta-lista tr:hover {
+  background-color: #f0f9f6;
+  cursor: pointer;
+}
+
+.coleta-lista tr.ativo {
+  background-color: #dff5e8;
+  font-weight: 600;
+}
+
+.coleta-form {
+  flex: 1;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.coleta-form h2 {
+  color: #0e6f5c;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+button {
+  background-color: #0e6f5c;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: #0c5a49;
+}
+
+.mensagem {
+  background: #eaf8f0;
+  border: 1px solid #b8e0c5;
+  color: #0c5a49;
+  padding: 10px 15px;
+  border-radius: 8px;
+  margin: 10px auto 20px auto;
+  text-align: center;
+  width: fit-content;
+}
