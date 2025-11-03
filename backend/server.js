@@ -92,10 +92,12 @@ app.post("/coleta", (req, res) => {
 // Serve o React buildado
 app.use(express.static(path.join(__dirname, "build")));
 
-// Para qualquer rota não reconhecida pela API, envia o index.html
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
+
+// Todas as rotas que não são da API vão para index.html
+app.get(/.*/, (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
+
 
 // 🚀 Inicializa o servidor
 const PORT = process.env.PORT || 3001;
