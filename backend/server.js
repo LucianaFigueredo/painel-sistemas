@@ -1,24 +1,24 @@
 const express = require("express");
 const cors = require("cors");
 const mysql = require("mysql2");
+const path = require("path");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
-const path = require('path');
 
 // 🔗 Conexão com o banco
 const db = mysql.createConnection({
-  host: "34.233.157.55",      // ou IP do servidor MySQL
-  user: "luciana",           // ajuste conforme seu ambiente
+  host: "34.233.157.55",
+  user: "luciana",
   password: "bnmg@",
-  database: "private_benassi_mg"
+  database: "private_benassi_mg",
 });
 
 // Testa a conexão
 db.connect((err) => {
   if (err) {
-    console.error("Erro ao conectar ao banco:", err);
+    console.error("❌ Erro ao conectar ao banco:", err);
   } else {
     console.log("✅ Conectado ao banco de dados MySQL!");
   }
@@ -85,16 +85,20 @@ app.post("/coleta", (req, res) => {
   });
 });
 
-// Serve arquivos estáticos do React (build)
-app.use(express.static(path.join(__dirname, 'build')));
+// ===============================
+// 🌐 FRONTEND REACT (build estático)
+// ===============================
 
-// Todas as rotas que não são da API vão para index.html
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+// Serve o React buildado
+app.use(express.static(path.join(__dirname, "build")));
+
+// Para qualquer rota não reconhecida pela API, envia o index.html
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
 // 🚀 Inicializa o servidor
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`🚀 Servidor rodando na porta ${PORT}`);
 });
