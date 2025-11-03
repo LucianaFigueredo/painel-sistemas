@@ -25,38 +25,7 @@ db.connect((err) => {
 });
 
 // ===============================
-// 🔍 ROTA 1 – Buscar funcionários sem email/telefone (antiga)
-// ===============================
-app.get("/funcionarios", (req, res) => {
-  const search = req.query.search || "";
-
-  const sql = `
-    SELECT id, codigo, nome, cpf, departamento, demissao, email, telefone
-    FROM funcionarios
-    WHERE 
-      (demissao IS NULL OR demissao = '')
-      AND (email IS NULL OR email = '' OR telefone IS NULL OR telefone = '')
-      AND (
-        nome LIKE ? OR
-        codigo LIKE ? OR
-        cpf LIKE ? OR
-        departamento LIKE ?
-      )
-    ORDER BY nome ASC
-  `;
-
-  db.query(
-    sql,
-    [`%${search}%`, `%${search}%`, `%${search}%`, `%${search}%`],
-    (err, results) => {
-      if (err) return res.status(500).json({ error: err });
-      res.json(results);
-    }
-  );
-});
-
-// ===============================
-// 🔍 ROTA NOVA – Buscar TODOS os funcionários ativos
+// Rotas da API
 // ===============================
 app.get("/funcionarios/todos", (req, res) => {
   const sql = `
@@ -65,39 +34,32 @@ app.get("/funcionarios/todos", (req, res) => {
     WHERE (demissao IS NULL OR demissao = '')
     ORDER BY nome ASC
   `;
-
   db.query(sql, (err, results) => {
     if (err) return res.status(500).json({ error: err });
     res.json(results);
   });
 });
 
-// ===============================
-// 📝 ROTA 2 – Atualizar dados (e-mail e telefone)
-// ===============================
 app.post("/coleta", (req, res) => {
   const { id, email, telefone } = req.body;
-
   const sql = `UPDATE funcionarios SET email = ?, telefone = ? WHERE id = ?`;
-  db.query(sql, [email, telefone, id], (err, result) => {
+  db.query(sql, [email, telefone, id], (err) => {
     if (err) return res.status(500).json({ error: err });
     res.json({ success: true, message: "Dados salvos com sucesso!" });
   });
 });
 
 // ===============================
-// 🌐 FRONTEND REACT (build estático)
+// FRONTEND (React)
 // ===============================
 
-// Serve o React buildado
-app.use(express.static(path.join(__dirname, "build")));
+// 👉 Corrigido o caminho do build
+app.use(express.static(path.join(__dirname, "../build")));
 
-
-// Todas as rotas que não são da API vão para index.html
+// 👉 Corrigido o wildcard pro Express 5
 app.get(/.*/, (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+  res.sendFile(path.join(__dirname, "../build", "index.html"));
 });
-
 
 // 🚀 Inicializa o servidor
 const PORT = process.env.PORT || 3001;
