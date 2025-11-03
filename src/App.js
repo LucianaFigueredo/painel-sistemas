@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { Info, Search, ChevronLeft, Copy } from "lucide-react";
 import "./App.css";
 
+
 function App() {
   const [dados, setDados] = useState([]);
   const [pilhaPaginas, setPilhaPaginas] = useState([]);
