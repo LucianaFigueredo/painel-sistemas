@@ -5,6 +5,7 @@ const mysql = require("mysql2");
 const app = express();
 app.use(cors());
 app.use(express.json());
+const path = require('path');
 
 // 🔗 Conexão com o banco
 const db = mysql.createConnection({
@@ -82,6 +83,14 @@ app.post("/coleta", (req, res) => {
     if (err) return res.status(500).json({ error: err });
     res.json({ success: true, message: "Dados salvos com sucesso!" });
   });
+});
+
+// Serve arquivos estáticos do React (build)
+app.use(express.static(path.join(__dirname, 'build')));
+
+// Todas as rotas que não são da API vão para index.html
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 // 🚀 Inicializa o servidor
