@@ -6,20 +6,26 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// 🔗 Conexão com o banco
-const db = mysql.createConnection({
-  host: "34.233.157.55",      // ou IP do servidor MySQL
-  user: "luciana",           // ajuste conforme seu ambiente
+// 🔗 POOL DE CONEXÕES (mais estável que conexão única)
+const pool = mysql.createPool({
+  host: "34.233.157.55",
+  user: "luciana",
   password: "bnmg@",
-  database: "private_benassi_mg"
+  database: "private_benassi_mg",
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
+  enableKeepAlive: true,
+  keepAliveInitialDelay: 0
 });
 
 // Testa a conexão
-db.connect((err) => {
+pool.getConnection((err, connection) => {
   if (err) {
-    console.error("Erro ao conectar ao banco:", err);
+    console.error("❌ Erro ao conectar ao banco:", err);
   } else {
     console.log("✅ Conectado ao banco de dados MySQL!");
+    connection.release(); // Libera a conexão de volta para o pool
   }
 });
 
@@ -44,11 +50,14 @@ app.get("/funcionarios", (req, res) => {
     ORDER BY nome ASC
   `;
 
-  db.query(
+  pool.query(
     sql,
     [`%${search}%`, `%${search}%`, `%${search}%`, `%${search}%`],
     (err, results) => {
-      if (err) return res.status(500).json({ error: err });
+      if (err) {
+        console.error("Erro na query /funcionarios:", err);
+        return res.status(500).json({ error: err.message });
+      }
       res.json(results);
     }
   );
@@ -65,8 +74,11 @@ app.get("/funcionarios/todos", (req, res) => {
     ORDER BY nome ASC
   `;
 
-  db.query(sql, (err, results) => {
-    if (err) return res.status(500).json({ error: err });
+  pool.query(sql, (err, results) => {
+    if (err) {
+      console.error("Erro na query /funcionarios/todos:", err);
+      return res.status(500).json({ error: err.message });
+    }
     res.json(results);
   });
 });
@@ -78,9 +90,33 @@ app.post("/coleta", (req, res) => {
   const { id, email, telefone } = req.body;
 
   const sql = `UPDATE funcionarios SET email = ?, telefone = ? WHERE id = ?`;
-  db.query(sql, [email, telefone, id], (err, result) => {
-    if (err) return res.status(500).json({ error: err });
+  pool.query(sql, [email, telefone, id], (err, result) => {
+    if (err) {
+      console.error("Erro na query /coleta:", err);
+      return res.status(500).json({ error: err.message });
+    }
     res.json({ success: true, message: "Dados salvos com sucesso!" });
+  });
+});
+
+// ===============================
+// 🏥 ROTA DE HEALTH CHECK
+// ===============================
+app.get("/health", (req, res) => {
+  pool.getConnection((err, connection) => {
+    if (err) {
+      console.error("❌ Banco não está respondendo:", err);
+      return res.status(500).json({ 
+        status: "error", 
+        message: "Banco de dados indisponível",
+        error: err.message 
+      });
+    }
+    connection.release();
+    res.json({ 
+      status: "ok", 
+      message: "Servidor e banco funcionando!" 
+    });
   });
 });
 
