@@ -236,50 +236,54 @@ function Coleta() {
   };
 
   const handleCadastrarNovo = () => {
-    // Validações
-    if (!novoFuncCpf || !novoFuncNome || !novoFuncEmail || !novoFuncTelefone) {
-      setMensagem("⚠️ Preencha todos os campos!");
-      return;
-    }
-    if (!validarCPF(novoFuncCpf)) {
-      setMensagem("⚠️ CPF inválido! Digite os 11 dígitos.");
-      return;
-    }
-    if (!validarEmail(novoFuncEmail)) {
-      setMensagem("⚠️ Digite um e-mail válido!");
-      return;
-    }
+  // Validações
+  if (!departamentoSelecionado) {
+    setMensagem("⚠️ Selecione o departamento!");
+    return;
+  }
+  if (!novoFuncCpf || !novoFuncNome || !novoFuncEmail || !novoFuncTelefone) {
+    setMensagem("⚠️ Preencha todos os campos!");
+    return;
+  }
+  if (!validarCPF(novoFuncCpf)) {
+    setMensagem("⚠️ CPF inválido! Digite os 11 dígitos.");
+    return;
+  }
+  if (!validarEmail(novoFuncEmail)) {
+    setMensagem("⚠️ Digite um e-mail válido!");
+    return;
+  }
 
-    setAtualizando(true);
-    setMensagem("");
+  setAtualizando(true);
+  setMensagem("");
 
-    // Remove formatação do CPF antes de enviar
-    const cpfLimpo = novoFuncCpf.replace(/\D/g, "");
+  // Remove formatação do CPF antes de enviar
+  const cpfLimpo = novoFuncCpf.replace(/\D/g, "");
 
-    axios.post("https://painel-sistemas.onrender.com/funcionarios/novo", {
-        cpf: cpfLimpo,
-        nome: novoFuncNome,
-        email: novoFuncEmail,
-        telefone: novoFuncTelefone,
-      })
-      .then(() => {
-        setMensagem(`✅ Funcionário cadastrado com sucesso!`);
-        carregarFuncionarios(); // Recarrega a lista
-        setTimeout(() => {
-          limparSelecao();
-        }, 2000);
-      })
-      .catch((err) => {
-        console.error("Erro ao cadastrar:", err);
-        if (err.response?.status === 409) {
-          setMensagem("⚠️ CPF já cadastrado no sistema!");
-        } else {
-          setMensagem("❌ Erro ao cadastrar. Tente novamente.");
-        }
-      })
-      .finally(() => setAtualizando(false));
-  };
-
+  axios.post("https://painel-sistemas.onrender.com/funcionarios/novo", {
+      cpf: cpfLimpo,
+      nome: novoFuncNome,
+      email: novoFuncEmail,
+      telefone: novoFuncTelefone,
+      departamento: departamentoSelecionado  // ✅ ENVIANDO DEPARTAMENTO
+    })
+    .then(() => {
+      setMensagem(`✅ Funcionário cadastrado com sucesso!`);
+      carregarFuncionarios(); // Recarrega a lista
+      setTimeout(() => {
+        limparSelecao();
+      }, 2000);
+    })
+    .catch((err) => {
+      console.error("Erro ao cadastrar:", err);
+      if (err.response?.status === 409) {
+        setMensagem("⚠️ CPF já cadastrado no sistema!");
+      } else {
+        setMensagem("❌ Erro ao cadastrar. Tente novamente.");
+      }
+    })
+    .finally(() => setAtualizando(false));
+};
   return (
     <div className={styles.coletaContainer}>
       <div className={styles.header}>
@@ -425,87 +429,112 @@ function Coleta() {
         </div>
 
         {/* ✅ FORMULÁRIO DE CADASTRO DE NOVO FUNCIONÁRIO */}
-        {modoCadastro && (
-          <div className={styles.infoSelecionado} style={{
-            background: '#e3f2fd',
-            borderColor: '#2196f3'
-          }}>
-            <div className={styles.infoHeader}>
-              <span className={styles.infoTitulo} style={{color: '#1565c0'}}>
-                <UserPlus size={18} style={{display: 'inline', marginRight: '8px'}} />
-                Cadastrar Novo Funcionário
-              </span>
-              <X
-                size={20}
-                style={{cursor: 'pointer', color: '#666'}}
-                onClick={limparSelecao}
-              />
-            </div>
+{modoCadastro && (
+  <div className={styles.infoSelecionado} style={{
+    background: '#e6f5f0',
+    borderColor: '#0e6f5c'
+  }}>
+    <div className={styles.infoHeader}>
+      <span className={styles.infoTitulo} style={{color: '#0e6f5c'}}>
+        <UserPlus size={18} style={{display: 'inline', marginRight: '8px'}} />
+        Cadastrar Novo Funcionário
+      </span>
+      <X
+        size={20}
+        style={{cursor: 'pointer', color: '#666'}}
+        onClick={limparSelecao}
+      />
+    </div>
 
-            <div className={styles.formGroup}>
-              <label>
-                CPF <span className={styles.obrigatorio}>*</span>
-              </label>
-              <input
-                type="text"
-                placeholder="000.000.000-00"
-                value={novoFuncCpf}
-                onChange={(e) => setNovoFuncCpf(formatarCPF(e.target.value))}
-                maxLength="14"
-                className={styles.inputSimples}
-              />
-            </div>
+    {/* ✅ CAMPO DEPARTAMENTO - PRIMEIRO CAMPO */}
+    <div className={styles.formGroup}>
+      <label>
+        Departamento <span className={styles.obrigatorio}>*</span>
+      </label>
+      <select
+        value={departamentoSelecionado}
+        onChange={(e) => setDepartamentoSelecionado(e.target.value)}
+        className={styles.inputSimples}
+        style={{
+          padding: '12px',
+          border: '2px solid #e0e0e0',
+          borderRadius: '10px',
+          fontSize: '1rem',
+          background: '#fafafa',
+          cursor: 'pointer'
+        }}
+      >
+        <option value="">Selecione um departamento</option>
+        {departamentos.map((dept, idx) => (
+          <option key={idx} value={dept}>{dept}</option>
+        ))}
+      </select>
+    </div>
 
-            <div className={styles.formGroup}>
-              <label>
-                Nome Completo <span className={styles.obrigatorio}>*</span>
-              </label>
-              <input
-                type="text"
-                placeholder="Nome completo do funcionário"
-                value={novoFuncNome}
-                onChange={(e) => setNovoFuncNome(e.target.value.toUpperCase())}
-                className={styles.inputSimples}
-              />
-            </div>
+    <div className={styles.formGroup}>
+      <label>
+        CPF <span className={styles.obrigatorio}>*</span>
+      </label>
+      <input
+        type="text"
+        placeholder="000.000.000-00"
+        value={novoFuncCpf}
+        onChange={(e) => setNovoFuncCpf(formatarCPF(e.target.value))}
+        maxLength="14"
+        className={styles.inputSimples}
+      />
+    </div>
 
-            <div className={styles.formGroup}>
-              <label>
-                E-mail <span className={styles.obrigatorio}>*</span>
-              </label>
-              <input
-                type="email"
-                placeholder="exemplo@email.com"
-                value={novoFuncEmail}
-                onChange={(e) => setNovoFuncEmail(e.target.value)}
-                className={styles.inputSimples}
-              />
-            </div>
+    <div className={styles.formGroup}>
+      <label>
+        Nome Completo <span className={styles.obrigatorio}>*</span>
+      </label>
+      <input
+        type="text"
+        placeholder="Nome completo do funcionário"
+        value={novoFuncNome}
+        onChange={(e) => setNovoFuncNome(e.target.value.toUpperCase())}
+        className={styles.inputSimples}
+      />
+    </div>
 
-            <div className={styles.formGroup}>
-              <label>
-                Telefone <span className={styles.obrigatorio}>*</span>
-              </label>
-              <input
-                type="text"
-                placeholder="(31) 99999-9999"
-                value={novoFuncTelefone}
-                onChange={(e) => setNovoFuncTelefone(formatarTelefone(e.target.value))}
-                maxLength="15"
-                className={styles.inputSimples}
-              />
-            </div>
+    <div className={styles.formGroup}>
+      <label>
+        E-mail <span className={styles.obrigatorio}>*</span>
+      </label>
+      <input
+        type="email"
+        placeholder="exemplo@email.com"
+        value={novoFuncEmail}
+        onChange={(e) => setNovoFuncEmail(e.target.value)}
+        className={styles.inputSimples}
+      />
+    </div>
 
-            <button
-              onClick={handleCadastrarNovo}
-              disabled={atualizando}
-              className={styles.botaoSalvar}
-            >
-              <UserPlus size={18} />
-              {atualizando ? "Cadastrando..." : "Cadastrar Funcionário"}
-            </button>
-          </div>
-        )}
+    <div className={styles.formGroup}>
+      <label>
+        Telefone <span className={styles.obrigatorio}>*</span>
+      </label>
+      <input
+        type="text"
+        placeholder="(31) 99999-9999"
+        value={novoFuncTelefone}
+        onChange={(e) => setNovoFuncTelefone(formatarTelefone(e.target.value))}
+        maxLength="15"
+        className={styles.inputSimples}
+      />
+    </div>
+
+    <button
+      onClick={handleCadastrarNovo}
+      disabled={atualizando}
+      className={styles.botaoSalvar}
+    >
+      <UserPlus size={18} />
+      {atualizando ? "Cadastrando..." : "Cadastrar Funcionário"}
+    </button>
+  </div>
+)}
 
         {/* FORMULÁRIO EXISTENTE (atualizar contatos) */}
         {funcionarioSelecionado && !modoCadastro && (

@@ -102,13 +102,11 @@ app.post("/coleta", (req, res) => {
 // ===============================
 // 🆕 ROTA 3 – Cadastrar NOVO funcionário
 // ===============================
-// ADICIONE ESTA ROTA NO SEU server.js, ANTES DO app.listen()
-
 app.post("/funcionarios/novo", (req, res) => {
-  const { cpf, nome, email, telefone } = req.body;
+  const { cpf, nome, email, telefone, departamento } = req.body;  // ✅ ADICIONADO DEPARTAMENTO
 
   // Valida se todos os campos foram preenchidos
-  if (!cpf || !nome || !email || !telefone) {
+  if (!cpf || !nome || !email || !telefone || !departamento) {
     return res.status(400).json({ 
       error: "Todos os campos são obrigatórios" 
     });
@@ -129,13 +127,13 @@ app.post("/funcionarios/novo", (req, res) => {
       });
     }
 
-    // Insere o novo funcionário
+    // Insere o novo funcionário COM DEPARTAMENTO
     const sqlInsert = `
-      INSERT INTO funcionarios (cpf, nome, email, telefone, demissao)
-      VALUES (?, ?, ?, ?, NULL)
+      INSERT INTO funcionarios (cpf, nome, email, telefone, departamento, demissao)
+      VALUES (?, ?, ?, ?, ?, NULL)
     `;
 
-    pool.query(sqlInsert, [cpf, nome, email, telefone], (err, result) => {
+    pool.query(sqlInsert, [cpf, nome, email, telefone, departamento], (err, result) => {
       if (err) {
         console.error("Erro ao cadastrar funcionário:", err);
         return res.status(500).json({ error: err.message });
@@ -149,6 +147,7 @@ app.post("/funcionarios/novo", (req, res) => {
     });
   });
 });
+
 // ===============================
 // 🏥 ROTA DE HEALTH CHECK
 // ===============================
