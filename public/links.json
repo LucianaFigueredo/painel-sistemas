@@ -1,23 +1,10 @@
 [
   
 {
-  "nome": "Coleta",
+  "nome": "Funcionários",
   "logo": "icons/coleta.png",
-  "descricao": "Cadastro de coleta de informações dos colaboradores.",
-  "tipo": "pagina",
-  "filhos": [
-    {
-      "nome": "Contatos",
-      "logo": "icons/coleta.png",
-      "descricao": "Tela de coleta de dados: funcionário, e-mail e contato.",
-      "html": "<iframe src='https://one.benassiminas.com.br/#/coleta' width='100%' height='100%' frameborder='0'></iframe>",
-      "tipo": "html"
-    }
-  ]
-}
-
-
- 
-
+  "descricao": "Cadastro de coleta de informações dos funcionarios.",
+  "html": "<iframe src='https://one.benassiminas.com.br/#/coleta' width='100%' height='100%' frameborder='0'></iframe>",
+  "tipo": "html"}
 ]
 
