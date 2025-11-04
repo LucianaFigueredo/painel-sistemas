@@ -100,6 +100,55 @@ app.post("/coleta", (req, res) => {
 });
 
 // ===============================
+// 🆕 ROTA 3 – Cadastrar NOVO funcionário
+// ===============================
+app.post("/funcionarios/novo", (req, res) => {
+  const { cpf, nome, email, telefone } = req.body;
+
+  // Valida se todos os campos foram preenchidos
+  if (!cpf || !nome || !email || !telefone) {
+    return res.status(400).json({ 
+      error: "Todos os campos são obrigatórios" 
+    });
+  }
+
+  // Verifica se o CPF já existe
+  const sqlCheck = `SELECT id FROM funcionarios WHERE cpf = ?`;
+  
+  pool.query(sqlCheck, [cpf], (err, results) => {
+    if (err) {
+      console.error("Erro ao verificar CPF:", err);
+      return res.status(500).json({ error: err.message });
+    }
+
+    if (results.length > 0) {
+      return res.status(409).json({ 
+        error: "CPF já cadastrado no sistema" 
+      });
+    }
+
+    // Insere o novo funcionário
+    const sqlInsert = `
+      INSERT INTO funcionarios (cpf, nome, email, telefone, demissao)
+      VALUES (?, ?, ?, ?, NULL)
+    `;
+
+    pool.query(sqlInsert, [cpf, nome, email, telefone], (err, result) => {
+      if (err) {
+        console.error("Erro ao cadastrar funcionário:", err);
+        return res.status(500).json({ error: err.message });
+      }
+
+      res.json({ 
+        success: true, 
+        message: "Funcionário cadastrado com sucesso!",
+        id: result.insertId
+      });
+    });
+  });
+});
+
+// ===============================
 // 🏥 ROTA DE HEALTH CHECK
 // ===============================
 app.get("/health", (req, res) => {

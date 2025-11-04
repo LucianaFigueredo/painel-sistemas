@@ -20,6 +20,7 @@
   }
 }
 
+
 .header {
   text-align: center;
   margin-bottom: 30px;
@@ -486,4 +487,22 @@
   .funcionarioDados {
     font-size: 0.8rem;
   }
+}
+/* ✅ Botão de cadastrar novo funcionário */
+.dropdownBotaoCadastro {
+  padding: 12px 15px;
+  background: #2196f3;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  font-weight: 600;
+  border-top: 2px solid #1976d2;
+}
+
+.dropdownBotaoCadastro:hover {
+  background: #1976d2;
 }
