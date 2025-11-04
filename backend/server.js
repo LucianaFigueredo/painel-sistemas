@@ -102,6 +102,8 @@ app.post("/coleta", (req, res) => {
 // ===============================
 // 🆕 ROTA 3 – Cadastrar NOVO funcionário
 // ===============================
+// ADICIONE ESTA ROTA NO SEU server.js, ANTES DO app.listen()
+
 app.post("/funcionarios/novo", (req, res) => {
   const { cpf, nome, email, telefone } = req.body;
 
@@ -147,7 +149,6 @@ app.post("/funcionarios/novo", (req, res) => {
     });
   });
 });
-
 // ===============================
 // 🏥 ROTA DE HEALTH CHECK
 // ===============================

@@ -488,10 +488,15 @@
     font-size: 0.8rem;
   }
 }
+/* ===============================================
+   CSS ADICIONAL PARA Coleta.module.css
+   Adicione este código NO FINAL do arquivo
+   =============================================== */
+
 /* ✅ Botão de cadastrar novo funcionário */
 .dropdownBotaoCadastro {
   padding: 12px 15px;
-  background: #2196f3;
+  background: #0e6f5c;  /* ✅ VERDE BENASSI */
   color: white;
   cursor: pointer;
   transition: background 0.2s;
@@ -500,9 +505,22 @@
   gap: 10px;
   justify-content: center;
   font-weight: 600;
-  border-top: 2px solid #1976d2;
+  border-top: 2px solid #0c5f4b;  /* ✅ VERDE ESCURO */
+  font-size: 0.95rem;
 }
 
 .dropdownBotaoCadastro:hover {
-  background: #1976d2;
+  background: #0c5f4b;  /* ✅ VERDE ESCURO (hover) */
+}
+
+.dropdownBotaoCadastro svg {
+  flex-shrink: 0;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .dropdownBotaoCadastro {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
 }
