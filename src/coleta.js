@@ -102,7 +102,7 @@ function Coleta() {
   // Carrega todos os funcionários
   useEffect(() => {
     axios
-      .get("http://localhost:3001/funcionarios/todos")
+    .get("https://painel-sistemas.onrender.com/funcionarios/todos")
       .then((res) => {
         setFuncionarios(res.data);
         
@@ -215,8 +215,7 @@ function Coleta() {
     setAtualizando(true);
     setMensagem("");
 
-    axios
-      .post("http://localhost:3001/coleta", {
+  axios.post("https://painel-sistemas.onrender.com/coleta", {
         id: funcionarioSelecionado.id,
         email: email,
         telefone: telefone,
