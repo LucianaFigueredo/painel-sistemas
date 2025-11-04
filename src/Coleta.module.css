@@ -4,8 +4,10 @@
   min-height: 100vh;
   padding: 20px;
   padding-top: 20px;
+  padding-bottom: 60px; /* ✅ Espaço extra no final */
   color: #333;
-  overflow: visible;
+  overflow-y: auto; /* ✅ PERMITE SCROLL VERTICAL */
+  overflow-x: hidden;
   position: relative;
   z-index: 999;
 }
@@ -81,6 +83,7 @@
 .formulario {
   max-width: 700px;
   margin: 0 auto;
+  margin-bottom: 40px; /* ✅ Espaço extra no final */
   background: white;
   padding: 30px;
   border-radius: 15px;
