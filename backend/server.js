@@ -103,31 +103,32 @@ app.post("/coleta", (req, res) => {
 // 🆕 ROTA 3 – Cadastrar NOVO funcionário
 // ===============================
 app.post("/funcionarios/novo", (req, res) => {
-  const { cpf, nome, email, telefone, departamento } = req.body;  // ✅ ADICIONADO DEPARTAMENTO
+  const { cpf, nome, email, telefone, departamento } = req.body;
 
-  // Valida se todos os campos foram preenchidos
   if (!cpf || !nome || !email || !telefone || !departamento) {
     return res.status(400).json({ 
       error: "Todos os campos são obrigatórios" 
     });
   }
 
-  // Verifica se o CPF já existe
   const sqlCheck = `SELECT id FROM funcionarios WHERE cpf = ?`;
-  
+
   pool.query(sqlCheck, [cpf], (err, results) => {
     if (err) {
       console.error("Erro ao verificar CPF:", err);
       return res.status(500).json({ error: err.message });
     }
 
+    // 🔹 Caso o CPF já exista — retorna 200 e mensagem amigável
     if (results.length > 0) {
-      return res.status(409).json({ 
-        error: "CPF já cadastrado no sistema" 
+      return res.status(200).json({
+        success: false,
+        message: "Funcionário já cadastrado!",
+        action: "clear-form"
       });
     }
 
-    // Insere o novo funcionário COM DEPARTAMENTO
+    // 🔹 Insere o novo funcionário normalmente
     const sqlInsert = `
       INSERT INTO funcionarios (cpf, nome, email, telefone, departamento, demissao)
       VALUES (?, ?, ?, ?, ?, NULL)
@@ -139,7 +140,7 @@ app.post("/funcionarios/novo", (req, res) => {
         return res.status(500).json({ error: err.message });
       }
 
-      res.json({ 
+      res.status(201).json({ 
         success: true, 
         message: "Funcionário cadastrado com sucesso!",
         id: result.insertId
@@ -147,6 +148,7 @@ app.post("/funcionarios/novo", (req, res) => {
     });
   });
 });
+
 
 // ===============================
 // 🏥 ROTA DE HEALTH CHECK

@@ -265,25 +265,33 @@ function Coleta() {
       nome: novoFuncNome,
       email: novoFuncEmail,
       telefone: novoFuncTelefone,
-      departamento: departamentoSelecionado  // ✅ ENVIANDO DEPARTAMENTO
+      departamento: departamentoSelecionado
     })
-    .then(() => {
-      setMensagem(`✅ Funcionário cadastrado com sucesso!`);
-      carregarFuncionarios(); // Recarrega a lista
-      setTimeout(() => {
-        limparSelecao();
-      }, 2000);
+    .then((response) => {
+      if (response.data.success === false) {
+        setMensagem("⚠️ Funcionário já cadastrado!");
+        setTimeout(() => {
+          limparSelecao();
+          setMensagem("");
+        }, 2000);
+      } else {
+        setMensagem("✅ Funcionário cadastrado com sucesso!");
+        carregarFuncionarios();
+        setTimeout(() => {
+          limparSelecao();
+          setMensagem("");
+        }, 2000);
+      }
     })
     .catch((err) => {
       console.error("Erro ao cadastrar:", err);
-      if (err.response?.status === 409) {
-        setMensagem("⚠️ CPF já cadastrado no sistema!");
-      } else {
-        setMensagem("❌ Erro ao cadastrar. Tente novamente.");
-      }
+      setMensagem("❌ Erro ao cadastrar. Tente novamente.");
+      setTimeout(() => setMensagem(""), 3000);
     })
     .finally(() => setAtualizando(false));
 };
+
+  
   return (
     <div className={styles.coletaContainer}>
       <div className={styles.header}>
