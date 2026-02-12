@@ -151,22 +151,56 @@ app.post("/funcionarios/novo", (req, res) => {
 
 
 // ===============================
+// 🔗 ROTA 4 – Buscar links da tabela
+// ===============================
+app.get("/links", (req, res) => {
+  const sql = `
+    SELECT id, nome, logo, descricao, tipo, link, html, titulo, id_pai, ordem
+    FROM links
+    WHERE ativo = TRUE
+    ORDER BY ordem ASC, id ASC
+  `;
+
+  pool.query(sql, (err, results) => {
+    if (err) {
+      console.error("Erro na query /links:", err);
+      return res.status(500).json({ error: err.message });
+    }
+
+    // Construir árvore hierárquica
+    const buildTree = (items, idPai = null) => {
+      return items
+        .filter(item => item.id_pai === idPai)
+        .map(item => ({
+          ...item,
+          // Ajustar caminho do logo para usar URL completa do servidor versa
+          logo: item.logo ? `http://localhost:4002${item.logo}` : null,
+          filhos: buildTree(items, item.id)
+        }));
+    };
+
+    const tree = buildTree(results);
+    res.json(tree);
+  });
+});
+
+// ===============================
 // 🏥 ROTA DE HEALTH CHECK
 // ===============================
 app.get("/health", (req, res) => {
   pool.getConnection((err, connection) => {
     if (err) {
       console.error("❌ Banco não está respondendo:", err);
-      return res.status(500).json({ 
-        status: "error", 
+      return res.status(500).json({
+        status: "error",
         message: "Banco de dados indisponível",
-        error: err.message 
+        error: err.message
       });
     }
     connection.release();
-    res.json({ 
-      status: "ok", 
-      message: "Servidor e banco funcionando!" 
+    res.json({
+      status: "ok",
+      message: "Servidor e banco funcionando!"
     });
   });
 });

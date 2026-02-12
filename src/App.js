@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { Info, Search, ChevronLeft, Copy } from "lucide-react";
 import "./App.css";
+import { API_BASE_URL } from "./config";
 
 
 function App() {
@@ -46,9 +47,9 @@ function App() {
     return false;
   }, []);
 
-  // ✅ Agora o ESLint não reclama mais da dependência
+  // ✅ Agora busca os links da API em vez do arquivo JSON
   useEffect(() => {
-    fetch("/links.json")
+    fetch(`${API_BASE_URL}/links`)
       .then((res) => res.json())
       .then((data) => {
         const ordenados = ordenarAlfabeticamente(data);
