@@ -174,7 +174,7 @@ app.get("/links", (req, res) => {
         .map(item => ({
           ...item,
           // Ajustar caminho do logo para usar URL completa do servidor versa
-          logo: item.logo ? `http://localhost:4002${item.logo}` : null,
+          logo: item.logo ? `${process.env.VERSA_API_URL || 'https://versa-api.onrender.com'}${item.logo}` : null,
           filhos: buildTree(items, item.id)
         }));
     };
