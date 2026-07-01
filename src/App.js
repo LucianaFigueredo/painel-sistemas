@@ -9,6 +9,7 @@ function App() {
   const [pilhaPaginas, setPilhaPaginas] = useState([]);
   const [busca, setBusca] = useState("");
   const [mensagemLinkCopiado, setMensagemLinkCopiado] = useState(false);
+  const [carregando, setCarregando] = useState(true);
 
   // âœ… Corrigido: funÃ§Ã£o "fixada" com useCallback
   const ordenarAlfabeticamente = useCallback((lista) =>
@@ -48,14 +49,33 @@ function App() {
   }, []);
 
   // ✅ Agora busca os links da API em vez do arquivo JSON
+  // O backend fica no Render e pode estar "dormindo" (cold start): a 1ª chamada
+  // pode falhar/demorar. Por isso tenta de novo com backoff antes de desistir.
   useEffect(() => {
-    fetch(`${API_BASE_URL}/links`)
-      .then((res) => res.json())
-      .then((data) => {
-        const ordenados = ordenarAlfabeticamente(data);
-        setDados(ordenados);
-      })
-      .catch((err) => console.error("Erro ao carregar links:", err));
+    let cancelado = false;
+
+    const carregarLinks = async (tentativa = 0) => {
+      try {
+        const res = await fetch(`${API_BASE_URL}/links`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        if (cancelado) return;
+        setDados(ordenarAlfabeticamente(data));
+        setCarregando(false);
+      } catch (err) {
+        console.error("Erro ao carregar links:", err);
+        if (cancelado) return;
+        if (tentativa < 6) {
+          const espera = Math.min(1000 * 2 ** tentativa, 8000); // 1s,2s,4s,8s...
+          setTimeout(() => carregarLinks(tentativa + 1), espera);
+        } else {
+          setCarregando(false); // desiste após ~30s acordando o servidor
+        }
+      }
+    };
+
+    carregarLinks();
+    return () => { cancelado = true; };
   }, [ordenarAlfabeticamente]);
 
   const paginaAtual =
@@ -237,6 +257,22 @@ function App() {
     />
   </div>
 </div>
+
+      {/* ======== Estado de carregamento (cold start do servidor) ======== */}
+      {carregando && dados.length === 0 && (
+        <div
+          style={{
+            width: "100%",
+            textAlign: "center",
+            marginTop: "40px",
+            color: "#0e6f5c",
+            fontSize: "0.95rem",
+            fontWeight: 500,
+          }}
+        >
+          Carregando...
+        </div>
+      )}
 
       {/* ======== Grid ======== */}
       <div className="grid">
